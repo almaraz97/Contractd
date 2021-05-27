@@ -1,7 +1,7 @@
 import { Tabs, Tab } from 'react-bootstrap'
 import React, { Component } from 'react';
-// import Checklist from '../../Checklist.json'
-import Checklist from '/Users/alexa/PycharmProjects/dChecklist/src/abis/Checklist.json'
+import Checklist from '../abis/Checklist.json'
+// import Checklist from '/Users/alexa/PycharmProjects/dChecklist/src/abis/Checklist.json'
 import Web3 from 'web3';
 import './App.css';
 
@@ -300,7 +300,7 @@ class App extends Component {
     return (
       <div className='text-monospace'>
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <a
+          <a href="#"
             className="navbar-brand col-sm-3 col-md-2 mr-0"
             target="_blank"
             rel="noopener noreferrer"
@@ -325,24 +325,5 @@ class App extends Component {
     );
   }
 }
-                {/*<Tab eventKey="withdraw" title="Withdraw">*/}
-                {/*  <br></br>*/}
-                {/*    Do you want to withdraw + take interest?*/}
-                {/*    <br></br>*/}
-                {/*    You have {this.state.dBankBalance} ETH deposited.*/}
-                {/*    <br></br>*/}
-                {/*    <br></br>*/}
-                {/*  <div>*/}
-                {/*    <button type='submit' className='btn btn-primary' onClick={(e) => this.withdraw(e)}>WITHDRAW</button>*/}
-                {/*  </div>*/}
-                {/*</Tab>*/}
-                {/*<Tab eventKey="interest" title="Interest">*/}
-                {/*  <br></br>*/}
-                {/*    You have {this.state.tokenBalance} {this.state.tokenName} tokens*/}
-                {/*    <br></br>*/}
-                {/*    <br></br>*/}
-                {/*  <div>*/}
-                {/*    <button type='submit' className='btn btn-primary' onClick={(e) => this.withdraw(e)}>WITHDRAW</button>*/}
-                {/*  </div>*/}
-                {/*</Tab>*/}
+
 export default App;
