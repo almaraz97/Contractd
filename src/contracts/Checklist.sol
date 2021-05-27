@@ -3,29 +3,6 @@ pragma experimental ABIEncoderV2;
 import "./Token.sol";
 
 
-//struct IndexValue {
-//  uint keyIndex; uint value;
-//}
-//struct KeyFlag {
-//  uint key; bool deleted;
-//}
-//struct KeyValue {
-//  uint key; uint value;
-//}
-//
-//struct itmap
-//{
-//  mapping(uint => IndexValue) data;
-//  KeyFlag[] keys;
-//  uint size;
-//}
-
-//  struct subTask{
-//    string subDescription;
-//  }
-//dBank private dbank;  // The contractor's chosen bank that handles the splitting of the funds
-//  enum completionLevel{Complete, inProgress, notStarted}
-
 contract Checklist {
   Token token;
   string public name;  // Name of the agreement
@@ -42,6 +19,7 @@ contract Checklist {
   uint deadline;
   uint[] taskNumbers;
   mapping (uint => Task) public taskLookup;
+  mapping (address => ufixed) public tokensPurchased;
 
   constructor(address payable payer_, string memory _name) public {
     contractor = msg.sender;  // assign initiator as the contractor
@@ -56,13 +34,13 @@ contract Checklist {
     require(locked==false, 'The checklist has been locked, both parties must unlock to allow changes.');
     require(bytes(description_).length!=0 && number>0 && amount>0, 'You must add a description, number, and valid amount');
 
-    Task storage task_;
+    Task memory task_;
     task_.description = description_;
     task_.amount = amount;
     task_.init = true;
     taskLookup[number] = task_;  // Add task to task mapping (where you can access task structs)
     taskNumbers.push(number);  // Add task number to list of task numbers
-    require(taskLookup[number] == task_, 'Mapping update failed.');
+    require(taskLookup[number].init == task_.init, 'Mapping update failed.');
     return true;
   }
   function changeTask(uint number, string calldata _description, uint _amount) external returns (bool, uint) {
@@ -100,7 +78,7 @@ contract Checklist {
     }
     if (payerUnlock==false && contractorUnlock==false){
       locked = true;
-      (bool success, ) = escrowPayer();
+      bool success = escrowPayer();
       require(success);
     }
     return true;
@@ -176,4 +154,42 @@ contract Checklist {
   function getTaskNumbers() public view returns(uint[] memory){
     return taskNumbers;
   }
+  function buyToken(ufixed amount) public{
+    ufixed previouslyPurchased = tokensPurchased[msg.sender];
+    ufixed cost = 0;
+    ufixed penalty = 0;
+    for (uint i=1; i<=amount; i++){
+      cost = (2- penalty)*i;
+      penalty = .1/i;
+    }
+//    for i, x in enumerate(dollars, 1):
+//    amount = 2*x-penalty
+//    # print(amount)
+//    trust.append(amount)
+//    penalty += .1/i
+  }
 }
+
+
+//struct IndexValue {
+//  uint keyIndex; uint value;
+//}
+//struct KeyFlag {
+//  uint key; bool deleted;
+//}
+//struct KeyValue {
+//  uint key; uint value;
+//}
+//
+//struct itmap
+//{
+//  mapping(uint => IndexValue) data;
+//  KeyFlag[] keys;
+//  uint size;
+//}
+
+//  struct subTask{
+//    string subDescription;
+//  }
+//dBank private dbank;  // The contractor's chosen bank that handles the splitting of the funds
+//  enum completionLevel{Complete, inProgress, notStarted}
